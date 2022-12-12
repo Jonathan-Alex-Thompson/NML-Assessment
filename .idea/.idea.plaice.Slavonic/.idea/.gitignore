@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/modules.xml
+/contentModel.xml
+/.idea.plaice.Slavonic.iml
+# Datasource local storage ignored files
+/../../../../../../../../:\Users\jonathant\Downloads\plaice.Slavonic (1)\.idea\.idea.plaice.Slavonic\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
