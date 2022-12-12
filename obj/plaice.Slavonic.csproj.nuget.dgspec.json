@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jonathant\\Downloads\\plaice.Slavonic (1)\\plaice.Slavonic.csproj": {}
+    "C:\\Users\\jonathant\\Desktop\\NML-Assessment\\plaice.Slavonic.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jonathant\\Downloads\\plaice.Slavonic (1)\\plaice.Slavonic.csproj": {
+    "C:\\Users\\jonathant\\Desktop\\NML-Assessment\\plaice.Slavonic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jonathant\\Downloads\\plaice.Slavonic (1)\\plaice.Slavonic.csproj",
+        "projectUniqueName": "C:\\Users\\jonathant\\Desktop\\NML-Assessment\\plaice.Slavonic.csproj",
         "projectName": "plaice.Slavonic",
-        "projectPath": "C:\\Users\\jonathant\\Downloads\\plaice.Slavonic (1)\\plaice.Slavonic.csproj",
+        "projectPath": "C:\\Users\\jonathant\\Desktop\\NML-Assessment\\plaice.Slavonic.csproj",
         "packagesPath": "C:\\Users\\jonathant\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jonathant\\Downloads\\plaice.Slavonic (1)\\obj\\",
+        "outputPath": "C:\\Users\\jonathant\\Desktop\\NML-Assessment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jonathant\\AppData\\Roaming\\NuGet\\NuGet.Config",

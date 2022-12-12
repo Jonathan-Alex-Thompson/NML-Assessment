@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "plaice.Slavonic/1.0.0": {
+        "runtime": {
+          "plaice.Slavonic.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "plaice.Slavonic/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

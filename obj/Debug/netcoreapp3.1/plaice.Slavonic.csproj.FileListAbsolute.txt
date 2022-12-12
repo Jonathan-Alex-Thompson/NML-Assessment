@@ -1,0 +1,10 @@
+C:\Users\jonathant\Desktop\NML-Assessment\bin\Debug\netcoreapp3.1\plaice.Slavonic.deps.json
+C:\Users\jonathant\Desktop\NML-Assessment\bin\Debug\netcoreapp3.1\plaice.Slavonic.dll
+C:\Users\jonathant\Desktop\NML-Assessment\bin\Debug\netcoreapp3.1\plaice.Slavonic.pdb
+C:\Users\jonathant\Desktop\NML-Assessment\obj\Debug\netcoreapp3.1\plaice.Slavonic.csproj.AssemblyReference.cache
+C:\Users\jonathant\Desktop\NML-Assessment\obj\Debug\netcoreapp3.1\plaice.Slavonic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jonathant\Desktop\NML-Assessment\obj\Debug\netcoreapp3.1\plaice.Slavonic.AssemblyInfoInputs.cache
+C:\Users\jonathant\Desktop\NML-Assessment\obj\Debug\netcoreapp3.1\plaice.Slavonic.AssemblyInfo.cs
+C:\Users\jonathant\Desktop\NML-Assessment\obj\Debug\netcoreapp3.1\plaice.Slavonic.csproj.CoreCompileInputs.cache
+C:\Users\jonathant\Desktop\NML-Assessment\obj\Debug\netcoreapp3.1\plaice.Slavonic.dll
+C:\Users\jonathant\Desktop\NML-Assessment\obj\Debug\netcoreapp3.1\plaice.Slavonic.pdb
