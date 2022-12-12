@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Nml.Improve.Me.Dependencies;
 
 namespace Nml.Improve.Me
@@ -36,29 +38,29 @@ namespace Nml.Improve.Me
 		{
 			var application = DataContext.Applications.Single(app => app.Id == applicationId);
 
-			if (application != null){
-
-				var view = GenerateViewString(application, baseUri);
-
-				var pdfOptions = new PdfOptions
-				{
-					PageNumbers = PageNumbers.Numeric,
-					HeaderOptions = new HeaderOptions
-					{
-						HeaderRepeat = HeaderRepeat.FirstPageOnly,
-						HeaderHtml = PdfConstants.Header
-					}
-				};
-				var pdf = _pdfGenerator.GenerateFromHtml(view, pdfOptions);
-				return pdf.ToBytes();
-			}
-			else
+			if (application != null)
 			{
-				
+				var view = GenerateViewString(application, baseUri);
+				if (!string.IsNullOrWhiteSpace(view)){
+					var pdfOptions = new PdfOptions
+					{
+						PageNumbers = PageNumbers.Numeric,
+						HeaderOptions = new HeaderOptions
+						{
+							HeaderRepeat = HeaderRepeat.FirstPageOnly,
+							HeaderHtml = PdfConstants.Header
+						}
+					};
+					return _pdfGenerator.GenerateFromHtml(view, pdfOptions).ToBytes();
+				}
 				_logger.LogWarning(
-					$"No application found for id '{applicationId}'");
+					$"Unable to generate view.");
 				return null;
 			}
+
+			_logger.LogWarning(
+				$"No application found for id '{applicationId}'");
+			return null;
 		}
 
 		private string GenerateViewString(Application application, string baseUri)
@@ -74,13 +76,14 @@ namespace Nml.Improve.Me
 					var vm = new PendingApplicationViewModel
 					{
 						ReferenceNumber = application.ReferenceNumber,
-						State = application.State.ToDescription(),
-						FullName = application.Person.FirstName + " " + application.Person.Surname,
+						State = GetDescription(application),
+						FullName = GetFullName(application),
 						AppliedOn = application.Date,
 						SupportEmail = _configuration.SupportEmail,
 						Signature = _configuration.Signature
 					};
-					return View_Generator.GenerateFromPath(string.Format("{0}{1}", baseUri, path), vm);
+					
+					return View_Generator.GenerateFromPath($"{baseUri}{path}", vm);
 				}
 				case ApplicationState.Activated:
 				{
@@ -88,22 +91,21 @@ namespace Nml.Improve.Me
 					var vm = new ActivatedApplicationViewModel
 					{
 						ReferenceNumber = application.ReferenceNumber,
-						State = application.State.ToDescription(),
-						FullName = $"{application.Person.FirstName} {application.Person.Surname}",
+						State = GetDescription(application),
+						FullName = GetFullName(application),
 						LegalEntity = application.IsLegalEntity ? application.LegalEntity : null,
-						PortfolioFunds = application.Products.SelectMany(p => p.Funds),
-						PortfolioTotalAmount = application.Products.SelectMany(p => p.Funds)
-							.Select(f => (f.Amount - f.Fees) * _configuration.TaxRate)
-							.Sum(),
+						PortfolioFunds = GetPortfolioFunds(application),
+						PortfolioTotalAmount = GetPortfolioTotalAmount(application),
 						AppliedOn = application.Date,
 						SupportEmail = _configuration.SupportEmail,
 						Signature = _configuration.Signature
 					};
-					return View_Generator.GenerateFromPath(baseUri + path, vm);
+					
+					return View_Generator.GenerateFromPath($"{baseUri}{path}", vm);
 				}
 				case ApplicationState.InReview:
 				{
-					var templatePath = _templatePathProvider.Get("InReviewApplication");
+					var path = _templatePathProvider.Get("InReviewApplication");
 					var inReviewMessage = "Your application has been placed in review" +
 					                      application.CurrentReview.Reason switch
 					                      {
@@ -114,32 +116,51 @@ namespace Nml.Improve.Me
 						                      _ =>
 							                      " because of suspicious account behaviour. Please contact support ASAP."
 					                      };
-					var inReviewApplicationViewModel = new InReviewApplicationViewModel
+					
+					var vm = new InReviewApplicationViewModel
 					{
 						ReferenceNumber = application.ReferenceNumber,
-						State = application.State.ToDescription(),
-						FullName = string.Format(
-							"{0} {1}",
-							application.Person.FirstName,
-							application.Person.Surname),
+						State = GetDescription(application),
+						FullName = GetFullName(application),
 						LegalEntity = application.IsLegalEntity ? application.LegalEntity : null,
-						PortfolioFunds = application.Products.SelectMany(p => p.Funds),
-						PortfolioTotalAmount = application.Products.SelectMany(p => p.Funds)
-							.Select(f => (f.Amount - f.Fees) * _configuration.TaxRate)
-							.Sum(),
+						PortfolioFunds = GetPortfolioFunds(application),
+						PortfolioTotalAmount = GetPortfolioTotalAmount(application),
 						InReviewMessage = inReviewMessage,
 						InReviewInformation = application.CurrentReview,
 						AppliedOn = application.Date,
 						SupportEmail = _configuration.SupportEmail,
 						Signature = _configuration.Signature
 					};
-					return View_Generator.GenerateFromPath($"{baseUri}{templatePath}", inReviewApplicationViewModel);
+
+					return View_Generator.GenerateFromPath($"{baseUri}{path}", vm);
 				}
 				default:
 					_logger.LogWarning(
 						$"The application is in state '{application.State}' and no valid document can be generated for it.");
 					return null;
 			}
+		}
+
+		private double GetPortfolioTotalAmount(Application application)
+		{
+			return application.Products.SelectMany(p => p.Funds)
+				.Select(f => (f.Amount - f.Fees) * _configuration.TaxRate)
+				.Sum();
+		}
+		
+		private string GetDescription(Application application)
+		{
+			return application.State.ToDescription();
+		}
+		
+		private string GetFullName(Application application)
+		{
+			return $"{application.Person.FirstName} {application.Person.Surname}";
+		}
+
+		private IEnumerable<Fund> GetPortfolioFunds(Application application)
+		{
+			return application.Products.SelectMany(p => p.Funds);
 		}
 	}
 }
